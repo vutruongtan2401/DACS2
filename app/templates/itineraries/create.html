@@ -1,0 +1,132 @@
+﻿{% extends 'base.html' %}
+
+{% set show_sidebar = true %}
+{% set active_page = 'create' %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/timeline.css">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4 px-md-5">
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+    <div>
+      <h2 class="fw-bold text-dark mb-1">Tạo chuyến đi mới</h2>
+      <p class="text-muted small mb-0">Lập kế hoạch chuyến đi với thành viên, lịch trình, địa điểm, checklist, chi phí và trạng thái theo dõi.</p>
+    </div>
+    <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2 fw-medium">Kế hoạch 1 - 30 ngày</span>
+  </div>
+
+  <div class="row justify-content-start">
+    <div class="col-xl-10">
+      <div class="card border-0 shadow-sm rounded-4 bg-white p-4 p-md-5">
+        <div id="itineraryAlert" class="alert d-none rounded-3" role="alert"></div>
+        <form id="itineraryForm" class="vstack gap-4">
+          <section class="form-section p-3 p-md-4 rounded-4 bg-light-subtle border">
+            <h5 class="fw-bold text-dark mb-3"><i class="bi bi-info-circle text-primary me-2"></i>1. Thông tin chuyến đi</h5>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label fw-medium text-dark">Tên chuyến đi <span class="text-danger">*</span></label>
+                <input class="form-control rounded-3" name="trip_title" placeholder="Khám phá Đà Nẵng cùng gia đình" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-medium text-dark">Điểm đến <span class="text-danger">*</span></label>
+                <input class="form-control rounded-3" name="destination" list="vietnamProvinces" placeholder="Đà Nẵng" required>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label fw-medium text-dark">Điểm xuất phát</label>
+                <input class="form-control rounded-3" name="origin" list="vietnamProvinces" placeholder="TP. Hồ Chí Minh">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label fw-medium text-dark">Ngày bắt đầu <span class="text-danger">*</span></label>
+                <input class="form-control rounded-3" type="date" name="start_date" required>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label fw-medium text-dark">Số ngày <span class="text-danger">*</span></label>
+                <input class="form-control rounded-3" type="number" name="number_of_days" min="1" max="30" value="3" required>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label fw-medium text-dark">Trạng thái</label>
+                <select class="form-select rounded-3" name="plan_status">
+                  <option value="DRAFT">Dự định</option>
+                  <option value="GENERATING">Đang diễn ra</option>
+                  <option value="COMPLETED">Đã hoàn thành</option>
+                </select>
+              </div>
+            </div>
+          </section>
+
+          <section class="form-section p-3 p-md-4 rounded-4 bg-light-subtle border">
+            <div class="d-flex justify-content-between align-items-center gap-2 mb-3">
+              <h5 class="fw-bold text-dark mb-0"><i class="bi bi-people text-primary me-2"></i>2. Thành viên đồng hành</h5>
+              <button class="btn btn-outline-primary btn-sm rounded-3" type="button" data-add-row="members"><i class="bi bi-plus-lg me-1"></i>Thêm</button>
+            </div>
+            <div id="membersRows" class="vstack gap-2"></div>
+          </section>
+
+          <section class="form-section p-3 p-md-4 rounded-4 bg-light-subtle border">
+            <div class="d-flex justify-content-between align-items-center gap-2 mb-3">
+              <h5 class="fw-bold text-dark mb-0"><i class="bi bi-calendar-week text-primary me-2"></i>3. Lịch trình theo ngày và khung giờ</h5>
+              <button class="btn btn-outline-primary btn-sm rounded-3" type="button" data-add-row="schedule"><i class="bi bi-plus-lg me-1"></i>Thêm</button>
+            </div>
+            <div id="scheduleRows" class="vstack gap-2"></div>
+          </section>
+
+          <section class="form-section p-3 p-md-4 rounded-4 bg-light-subtle border">
+            <div class="d-flex justify-content-between align-items-center gap-2 mb-3">
+              <h5 class="fw-bold text-dark mb-0"><i class="bi bi-pin-map text-primary me-2"></i>4. Địa điểm, nhà hàng, khách sạn</h5>
+              <button class="btn btn-outline-primary btn-sm rounded-3" type="button" data-add-row="places"><i class="bi bi-plus-lg me-1"></i>Thêm</button>
+            </div>
+            <div id="placesRows" class="vstack gap-2"></div>
+          </section>
+
+          <section class="form-section p-3 p-md-4 rounded-4 bg-light-subtle border">
+            <div class="d-flex justify-content-between align-items-center gap-2 mb-3">
+              <h5 class="fw-bold text-dark mb-0"><i class="bi bi-check2-square text-primary me-2"></i>5. Công việc cần chuẩn bị</h5>
+              <button class="btn btn-outline-primary btn-sm rounded-3" type="button" data-add-row="tasks"><i class="bi bi-plus-lg me-1"></i>Thêm</button>
+            </div>
+            <div id="tasksRows" class="vstack gap-2"></div>
+          </section>
+
+          <section class="form-section p-3 p-md-4 rounded-4 bg-light-subtle border">
+            <h5 class="fw-bold text-dark mb-3"><i class="bi bi-wallet2 text-primary me-2"></i>6. Dự tính chi phí</h5>
+            <div class="row g-3">
+              <div class="col-md-3"><label class="form-label fw-medium text-dark">Ăn uống</label><input class="form-control rounded-3 cost-input" type="number" name="food_cost" min="0" value="0"></div>
+              <div class="col-md-3"><label class="form-label fw-medium text-dark">Di chuyển</label><input class="form-control rounded-3 cost-input" type="number" name="transport_cost" min="0" value="0"></div>
+              <div class="col-md-3"><label class="form-label fw-medium text-dark">Lưu trú</label><input class="form-control rounded-3 cost-input" type="number" name="stay_cost" min="0" value="0"></div>
+              <div class="col-md-3"><label class="form-label fw-medium text-dark">Vé tham quan</label><input class="form-control rounded-3 cost-input" type="number" name="ticket_cost" min="0" value="0"></div>
+              <div class="col-md-4">
+                <label class="form-label fw-medium text-dark">Tổng chi phí dự kiến</label>
+                <input class="form-control rounded-3 fw-bold" name="budget" id="totalBudget" value="0" readonly>
+              </div>
+              <div class="col-md-2">
+                <label class="form-label fw-medium text-dark">Tiền tệ</label>
+                <input class="form-control rounded-3" name="currency" value="VND">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-medium text-dark">Ghi chú thêm</label>
+                <input class="form-control rounded-3" name="plan_note" placeholder="Ví dụ: cần thuê xe 7 chỗ, ưu tiên khách sạn gần biển">
+              </div>
+            </div>
+          </section>
+
+          <div class="d-flex flex-column flex-md-row gap-3 pt-2">
+            <button class="btn btn-primary-gradient px-5 py-3 rounded-3 fw-bold text-white shadow-sm" type="submit">
+              <span class="btn-label"><i class="bi bi-save me-2"></i>Lưu chuyến đi</span>
+              <span class="spinner-border spinner-border-sm d-none ms-2" role="status" aria-hidden="true"></span>
+            </button>
+            <button class="btn btn-light px-4 py-3 rounded-3 fw-medium" type="reset">Làm mới</button>
+          </div>
+        </form>
+        <datalist id="vietnamProvinces">
+          <option value="An Giang"></option><option value="Bắc Ninh"></option><option value="Cần Thơ"></option><option value="Đà Nẵng"></option><option value="Hà Nội"></option><option value="Hải Phòng"></option><option value="Huế"></option><option value="Khánh Hòa"></option><option value="Lâm Đồng"></option><option value="Ninh Bình"></option><option value="Quảng Ninh"></option><option value="TP. Hồ Chí Minh"></option>
+        </datalist>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="/static/js/itinerary-form.js?v=2"></script>
+{% endblock %}

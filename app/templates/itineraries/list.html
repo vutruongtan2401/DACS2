@@ -1,0 +1,71 @@
+﻿{% extends 'base.html' %}
+
+{% set show_sidebar = true %}
+{% set active_page = 'itineraries' %}
+
+{% block content %}
+<div class="container-fluid py-4 px-md-5">
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+    <div>
+      <h2 class="fw-bold text-dark mb-1">Chuyến đi của tôi</h2>
+      <p class="text-muted small mb-0">Theo dõi các chuyến đi đã lập, trạng thái, thời gian và ngân sách dự kiến.</p>
+    </div>
+    <a class="btn btn-primary-gradient px-4 py-2 rounded-3 fw-semibold text-white text-decoration-none shadow-sm" href="/itineraries/create">
+      <i class="bi bi-plus-lg me-1"></i> Tạo chuyến đi mới
+    </a>
+  </div>
+
+  <div class="row g-3 mb-4" id="tripStats">
+    <div class="col-md-4">
+      <div class="bg-white border rounded-4 p-3 shadow-sm h-100">
+        <div class="text-muted small mb-1">Tổng chuyến đi</div>
+        <div class="h4 fw-bold text-dark mb-0" data-stat="total">0</div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="bg-white border rounded-4 p-3 shadow-sm h-100">
+        <div class="text-muted small mb-1">Đang theo dõi</div>
+        <div class="h4 fw-bold text-primary mb-0" data-stat="active">0</div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="bg-white border rounded-4 p-3 shadow-sm h-100">
+        <div class="text-muted small mb-1">Tổng ngân sách</div>
+        <div class="h4 fw-bold text-success mb-0" data-stat="budget">0 VND</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card border-0 shadow-sm rounded-4 bg-white p-3 mb-4">
+    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
+      <ul class="nav nav-pills trip-status-tabs gap-2" id="statusTabs">
+        <li class="nav-item"><button class="nav-link active rounded-pill px-3 py-1 fw-medium" data-status="">Tất cả</button></li>
+        <li class="nav-item"><button class="nav-link rounded-pill px-3 py-1 fw-medium" data-status="DRAFT">Dự định</button></li>
+        <li class="nav-item"><button class="nav-link rounded-pill px-3 py-1 fw-medium" data-status="GENERATING">Đang diễn ra</button></li>
+        <li class="nav-item"><button class="nav-link rounded-pill px-3 py-1 fw-medium" data-status="COMPLETED">Đã hoàn thành</button></li>
+      </ul>
+
+      <div class="d-flex align-items-center gap-2">
+        <div class="input-group input-group-sm bg-light rounded-pill px-2">
+          <span class="input-group-text border-0 bg-transparent text-muted"><i class="bi bi-search"></i></span>
+          <input id="searchInput" class="form-control border-0 bg-transparent shadow-none" placeholder="Tìm theo tên hoặc điểm đến...">
+        </div>
+        <button id="refreshListBtn" class="btn btn-light btn-sm rounded-circle p-2 text-muted" title="Tải lại">
+          <i class="bi bi-arrow-clockwise"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="listState" class="small text-muted mb-3"></div>
+  <div id="itineraryList" class="row g-3"></div>
+
+  <nav class="mt-4">
+    <ul id="pagination" class="pagination justify-content-center"></ul>
+  </nav>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="/static/js/timeline.js?v=2"></script>
+{% endblock %}

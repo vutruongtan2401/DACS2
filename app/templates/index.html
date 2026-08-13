@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="landing-hero position-relative">
+  <div class="hero-bg-overlay"></div>
+  <div class="container hero-content py-5 text-center text-md-start">
+    <div class="row align-items-center justify-content-between g-4 py-md-4">
+      <div class="col-lg-7">
+        <h1 class="hero-title fw-extrabold display-4 mb-2 text-dark">
+          Lên kế hoạch du lịch
+        </h1>
+        <h2 class="hero-subtitle display-4 fw-extrabold mb-3 text-gradient">
+          Cá nhân hóa cùng AI ✨
+        </h2>
+        <p class="hero-description lead text-muted mb-4">
+          Tạo hành trình du lịch theo sở thích, ngân sách và thời gian của bạn
+        </p>
+
+        <!-- Floating Quick Search Box Card (Image 1) -->
+        <div class="hero-search-card p-3 shadow-lg rounded-4 bg-white mt-4">
+          <form action="/itineraries/create" method="GET" class="row g-2 align-items-center">
+            <div class="col-md-4">
+              <div class="search-input-group d-flex align-items-center px-3 py-2 bg-light rounded-3">
+                <i class="bi bi-search text-primary me-2FS fs-5"></i>
+                <input type="text" name="destination" class="form-control border-0 bg-transparent shadow-none" placeholder="Bạn muốn đi đâu?" required>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="search-input-group d-flex align-items-center px-3 py-2 bg-light rounded-3">
+                <i class="bi bi-calendar3 text-primary me-2 fs-5"></i>
+                <input type="text" onfocus="(this.type='date')" onblur="(this.type='text')" name="start_date" class="form-control border-0 bg-transparent shadow-none" placeholder="Ngày đi – ngày về">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="search-input-group d-flex align-items-center px-3 py-2 bg-light rounded-3">
+                <i class="bi bi-person-fill text-primary me-2 fs-5"></i>
+                <select name="adults" class="form-select border-0 bg-transparent shadow-none">
+                  <option value="1">1 người</option>
+                  <option value="2" selected>2 người</option>
+                  <option value="3">3 người</option>
+                  <option value="4">4+ người</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-12 mt-3">
+              <button type="submit" class="btn btn-search-cta w-100 py-3 fw-bold rounded-3 text-white">
+                Tạo hành trình ngay
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 Feature Cards Section (Image 1) -->
+<section class="feature-cards-section py-5 bg-light-subtle">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-3">
+        <div class="feature-card p-4 rounded-4 bg-white shadow-sm h-100 text-center text-md-start">
+          <div class="feature-icon-box mb-3 rounded-3 bg-primary-subtle text-primary">
+            <i class="bi bi-sliders fs-3"></i>
+          </div>
+          <h5 class="fw-bold mb-2 text-dark">Cá nhân hóa</h5>
+          <p class="text-muted small mb-0">Lịch trình được tạo riêng chỉ dành cho bạn</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="feature-card p-4 rounded-4 bg-white shadow-sm h-100 text-center text-md-start">
+          <div class="feature-icon-box mb-3 rounded-3 bg-success-subtle text-success">
+            <i class="bi bi-stars fs-3"></i>
+          </div>
+          <h5 class="fw-bold mb-2 text-dark">AI thông minh</h5>
+          <p class="text-muted small mb-0">Lưu thông tin chuyến đi và quản lý lịch trình dễ dàng</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="feature-card p-4 rounded-4 bg-white shadow-sm h-100 text-center text-md-start">
+          <div class="feature-icon-box mb-3 rounded-3 bg-warning-subtle text-warning">
+            <i class="bi bi-clock-history fs-3"></i>
+          </div>
+          <h5 class="fw-bold mb-2 text-dark">Tiết kiệm thời gian</h5>
+          <p class="text-muted small mb-0">Lên kế hoạch nhanh chóng chỉ trong vài phút</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="feature-card p-4 rounded-4 bg-white shadow-sm h-100 text-center text-md-start">
+          <div class="feature-icon-box mb-3 rounded-3 bg-danger-subtle text-danger">
+            <i class="bi bi-heart-fill fs-3"></i>
+          </div>
+          <h5 class="fw-bold mb-2 text-dark">Trải nghiệm tuyệt vời</h5>
+          <p class="text-muted small mb-0">Khám phá nhiều điểm đến độc đáo và thú vị</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Additional Info / Popular Destinations Section -->
+<section class="popular-destinations py-5" id="features">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h3 class="fw-bold mb-1 text-dark">Điểm đến phổ biến</h3>
+        <p class="text-muted mb-0">Gợi ý địa điểm được tạo lịch trình nhiều nhất</p>
+      </div>
+      <a href="/itineraries/create" class="btn btn-outline-primary rounded-pill px-4">Tạo chuyến đi</a>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="destination-card rounded-4 overflow-hidden position-relative shadow-sm">
+          <img src="https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?auto=format&fit=crop&w=800&q=80" alt="Đà Nẵng" class="w-100 dest-img">
+          <div class="dest-overlay p-4 d-flex flex-column justify-content-end">
+            <h4 class="text-white fw-bold mb-1">Đà Nẵng – Hội An</h4>
+            <span class="text-white-50 small">Biển xanh & Phố cổ đèn lồng</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="destination-card rounded-4 overflow-hidden position-relative shadow-sm">
+          <img src="https://images.unsplash.com/photo-1506461883276-594a12b11cf3?auto=format&fit=crop&w=800&q=80" alt="Đà Lạt" class="w-100 dest-img">
+          <div class="dest-overlay p-4 d-flex flex-column justify-content-end">
+            <h4 class="text-white fw-bold mb-1">Đà Lạt</h4>
+            <span class="text-white-50 small">Thành phố sương mù & ngàn hoa</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="destination-card rounded-4 overflow-hidden position-relative shadow-sm">
+          <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80" alt="Phú Quốc" class="w-100 dest-img">
+          <div class="dest-overlay p-4 d-flex flex-column justify-content-end">
+            <h4 class="text-white fw-bold mb-1">Phú Quốc</h4>
+            <span class="text-white-50 small">Thiên đường nghỉ dưỡng đảo ngọc</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

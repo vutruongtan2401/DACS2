@@ -1,0 +1,57 @@
+.admin-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: calc(100vh - 72px);
+}
+
+.admin-sidebar {
+  background: rgba(6, 12, 22, 0.94);
+  border-right: 1px solid rgba(255,255,255,0.08);
+  padding: 1.5rem 1.25rem;
+}
+
+.admin-brand {
+  font-size: 1.2rem;
+  font-weight: 800;
+  margin-bottom: 2rem;
+}
+
+.admin-nav {
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+}
+
+.admin-nav a {
+  color: rgba(255,255,255,.85);
+  padding: .7rem .9rem;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.04);
+}
+
+.admin-nav a:hover {
+  background: rgba(247, 168, 75, 0.14);
+}
+
+.admin-main {
+  min-width: 0;
+}
+
+.panel {
+  padding: 1.25rem;
+}
+
+.panel canvas {
+  max-height: 300px;
+}
+
+@media (max-width: 991.98px) {
+  .admin-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-sidebar {
+    border-right: 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+}
